@@ -1,0 +1,607 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Assignment 3 Iterations, Strings, Files, Lists and Tuples"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Chapter 5"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter a number: 4\n",
+      "Enter a number: 5\n",
+      "Enter a number: bad input\n",
+      "Invalid input\n",
+      "Enter a number: 7\n",
+      "Enter a number: done\n",
+      "Total: 16.0\n",
+      "Count: 3\n",
+      "Average: 5.333333333333333\n"
+     ]
+    }
+   ],
+   "source": [
+    "total = 0\n",
+    "count = 0\n",
+    "average = 0\n",
+    "while True:\n",
+    "    try:\n",
+    "        line = input(\"Enter a number: \")\n",
+    "        #Calculate the total\n",
+    "        total = total + float(line)\n",
+    "        #Increase the count\n",
+    "        count = count + 1\n",
+    "        #Calculate the average\n",
+    "        average = total / count\n",
+    "    except:\n",
+    "        if line == \"done\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Invalid input\")\n",
+    "print (\"Total: \" + str(total))\n",
+    "print (\"Count: \" + str(count))\n",
+    "print (\"Average: \" + str(average))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter a number: 4\n",
+      "Enter a number: 5\n",
+      "Enter a number: bad data\n",
+      "Invalid input\n",
+      "Enter a number: 7\n",
+      "Enter a number: done\n",
+      "Total: 16.0\n",
+      "Count: 3\n",
+      "Max: 7\n",
+      "Min: 4\n"
+     ]
+    }
+   ],
+   "source": [
+    "total = 0\n",
+    "count = 0\n",
+    "average = 0\n",
+    "numberList = []\n",
+    "while True:\n",
+    "    try:\n",
+    "        line = input(\"Enter a number: \")\n",
+    "        #Calculate the total\n",
+    "        total = total + float(line)\n",
+    "        #Increase the count\n",
+    "        count = count + 1\n",
+    "        #Calculate the average\n",
+    "        average = total / count\n",
+    "        #Add numbers to a list\n",
+    "        numberList.append(line)\n",
+    "    except:\n",
+    "        if line == \"done\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Invalid input\")\n",
+    "print (\"Total: \" + str(total))\n",
+    "print (\"Count: \" + str(count))\n",
+    "#Print Max\n",
+    "print (\"Max: \" + max(numberList))\n",
+    "#Print Min\n",
+    "print (\"Min: \" + min(numberList))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Chapter 6"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 5"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0.8475\n"
+     ]
+    }
+   ],
+   "source": [
+    "str = 'X-DSPAM-Confidence:0.8475'\n",
+    "#Find the postion of \":\"\n",
+    "colpos = str.find(':')\n",
+    "#Extract portion after the \":\", and convert it to float\n",
+    "print(float(str[colpos+1:]))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Chapter 7"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter the file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/mbox.txt\n",
+      "Average spam confidence: 0.8941280467445736\n"
+     ]
+    }
+   ],
+   "source": [
+    "count = 0\n",
+    "total = 0\n",
+    "average = 0\n",
+    "#Prompt user to enter file name\n",
+    "fileName = input(\"Enter the file name: \")\n",
+    "#Open the file\n",
+    "fhand = open(fileName)\n",
+    "for line in fhand:\n",
+    "    #Search for lines starting with given substring\n",
+    "    strBool = line.startswith(\"X-DSPAM-Confidence:\")\n",
+    "    if strBool != False:\n",
+    "        #Increase the count\n",
+    "        count = count + 1\n",
+    "        #Find position of \":\" in substring\n",
+    "        colpos = line.find(\":\")\n",
+    "        #Find position of \"\\\" in substring\n",
+    "        lpos = line.find(\"\\\\\",colpos)\n",
+    "        #Extract the floating point number in line\n",
+    "        extractFloat = float(line[colpos+1:lpos])\n",
+    "        #Calculate total\n",
+    "        total = total + extractFloat\n",
+    "        #Calculate average\n",
+    "        average = total / count\n",
+    "print (\"Average spam confidence: \" + str(average))       "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Chapter 8"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 4"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter the file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/Romeo.txt\n",
+      "['Arise', 'But', 'It', 'Juliet', 'Who', 'already', 'and', 'breaks', 'east', 'envious', 'fair', 'grief', 'is', 'kill', 'light', 'moon', 'pale', 'sick', 'soft', 'sun', 'the', 'through', 'what', 'window', 'with', 'yonder']\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Initialize list\n",
+    "wordsList = []\n",
+    "#Prompt user to enter file name\n",
+    "fileName = input(\"Enter the file name: \")\n",
+    "#Open the file\n",
+    "fhand = open(fileName)\n",
+    "for line in fhand:\n",
+    "    words = line.split()\n",
+    "    for i in words:\n",
+    "        if (i.count(\"\\\\\")) > 0:\n",
+    "        #.replace returns a copy of the string with characters replaced, as strings in Python are immutable\n",
+    "            i = i.replace(\"\\\\\",\"\")\n",
+    "        if i not in wordsList:\n",
+    "            wordsList.append(i)\n",
+    "#Sort list in alphabetical order\n",
+    "wordsList.sort()\n",
+    "print(wordsList)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 5"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter the file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/mbox-short.rtf\n",
+      "stephen.marquard@uct.ac.za\n",
+      "louis@media.berkeley.edu\n",
+      "zqian@umich.edu\n",
+      "rjlowe@iupui.edu\n",
+      "zqian@umich.edu\n",
+      "rjlowe@iupui.edu\n",
+      "cwen@iupui.edu\n",
+      "cwen@iupui.edu\n",
+      "gsilver@umich.edu\n",
+      "gsilver@umich.edu\n",
+      "zqian@umich.edu\n",
+      "gsilver@umich.edu\n",
+      "wagnermr@iupui.edu\n",
+      "zqian@umich.edu\n",
+      "antranig@caret.cam.ac.uk\n",
+      "gopal.ramasammycook@gmail.com\n",
+      "david.horwitz@uct.ac.za\n",
+      "david.horwitz@uct.ac.za\n",
+      "david.horwitz@uct.ac.za\n",
+      "david.horwitz@uct.ac.za\n",
+      "stephen.marquard@uct.ac.za\n",
+      "louis@media.berkeley.edu\n",
+      "louis@media.berkeley.edu\n",
+      "ray@media.berkeley.edu\n",
+      "cwen@iupui.edu\n",
+      "cwen@iupui.edu\n",
+      "cwen@iupui.edu\n",
+      "There were 27 lines in the file with From as the first word\n"
+     ]
+    }
+   ],
+   "source": [
+    "count = 0\n",
+    "#Prompt user to enter file name\n",
+    "fileName = input(\"Enter the file name: \")\n",
+    "fhand = open(fileName)\n",
+    "for line in fhand:\n",
+    "    strBool = line.startswith(\"From \")\n",
+    "    if strBool == True :\n",
+    "        count = count + 1\n",
+    "        line = line.split()\n",
+    "    #Extract and print the email address\n",
+    "        print(line[1])\n",
+    "print (\"There were \" + str(count) + \" lines in the file with From as the first word\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Chapter 9"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 4"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter a file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/mbox-short.rtf\n",
+      "cwen@iupui.edu 5\n"
+     ]
+    }
+   ],
+   "source": [
+    "senderDict = dict()\n",
+    "count = 0\n",
+    "#Prompt user to enter file name\n",
+    "fileName = input(\"Enter a file name: \")\n",
+    "#Open file\n",
+    "fhand = open(fileName)\n",
+    "for line in fhand:\n",
+    "    strbool = line.startswith(\"From:\")\n",
+    "    if strbool == True:\n",
+    "        line = line.split()\n",
+    "        i = line[1]\n",
+    "        if (i.count(\"\\\\\") > 0):\n",
+    "            i = i.replace(\"\\\\\",\"\")\n",
+    "        if i not in senderDict:\n",
+    "            senderDict[i] = 1\n",
+    "        else:\n",
+    "            senderDict[i] += 1        \n",
+    "#Extract the sender with most number of emails\n",
+    "maxSender = max(senderDict, key=senderDict.get)\n",
+    "#Extract the number of emails sendt by the max sender\n",
+    "maxEmails = senderDict.get(maxSender, 0)\n",
+    "print (str(maxSender) + \" \" + str(maxEmails))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 5"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter a file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/mbox-short.rtf\n",
+      "{'uct.ac.za': 6, 'media.berkeley.edu': 4, 'umich.edu': 7, 'iupui.edu': 8, 'caret.cam.ac.uk': 1, 'gmail.com': 1}\n"
+     ]
+    }
+   ],
+   "source": [
+    "senderDict = dict()\n",
+    "count = 0\n",
+    "#Prompt user to enter file name\n",
+    "fileName = input(\"Enter a file name: \")\n",
+    "#Open file\n",
+    "fhand = open(fileName)\n",
+    "for line in fhand:\n",
+    "    strbool = line.startswith(\"From:\")\n",
+    "    if strbool == True:\n",
+    "        line = line.split()\n",
+    "        i = line[1]\n",
+    "        if (i.count(\"\\\\\") > 0):\n",
+    "            i = i.replace(\"\\\\\",\"\")\n",
+    "        #Find position of \"@\" in substring\n",
+    "        atpos = i.find(\"@\")\n",
+    "        #Extract domain name from line\n",
+    "        domain = i[atpos+1:]\n",
+    "        if domain not in senderDict:\n",
+    "            senderDict[domain] = 1\n",
+    "        else:\n",
+    "            senderDict[domain] += 1        \n",
+    "\n",
+    "print(senderDict)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Chapter 10 "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter a file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/mbox-short.rtf\n",
+      "04 3\n",
+      "06 1\n",
+      "07 1\n",
+      "09 2\n",
+      "10 3\n",
+      "11 6\n",
+      "14 1\n",
+      "15 2\n",
+      "16 4\n",
+      "17 2\n",
+      "18 1\n",
+      "19 1\n"
+     ]
+    }
+   ],
+   "source": [
+    "senderDict = dict()\n",
+    "count = 0\n",
+    "#Prompt user to enter file name\n",
+    "fileName = input(\"Enter a file name: \")\n",
+    "#Open file\n",
+    "fhand = open(fileName)\n",
+    "for line in fhand:\n",
+    "    strbool = line.startswith(\"From \")\n",
+    "    if strbool == True:\n",
+    "        line = line.split()\n",
+    "        i = line[5]\n",
+    "        if (i.count(\"\\\\\") > 0):\n",
+    "            i = i.replace(\"\\\\\",\"\")\n",
+    "        #Find position of \":\" in substring\n",
+    "        colpos = i.find(\":\")\n",
+    "        #Find posiion of space in line\n",
+    "        sppos = i.find(\" \")\n",
+    "        #Extract the hour from line\n",
+    "        hour = i[sppos+1:colpos]\n",
+    "        if hour not in senderDict:\n",
+    "            senderDict[hour] = 1\n",
+    "        else:\n",
+    "            senderDict[hour] += 1        \n",
+    "\n",
+    "# Sort the dictionary by hour\n",
+    "lst = list()\n",
+    "for key, val in list(senderDict.items()):\n",
+    "    lst.append((key, val))\n",
+    "    lst.sort()\n",
+    "for key, val in lst:\n",
+    "    print(key, val)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Excercise 3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter a file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/Romeo.txt\n",
+      "a 0.08208955223880597\n",
+      "b 0.014925373134328358\n",
+      "c 0.007462686567164179\n",
+      "d 0.04477611940298507\n",
+      "e 0.08955223880597014\n",
+      "f 0.022388059701492536\n",
+      "g 0.022388059701492536\n",
+      "h 0.06716417910447761\n",
+      "i 0.1044776119402985\n",
+      "j 0.007462686567164179\n",
+      "k 0.022388059701492536\n",
+      "l 0.04477611940298507\n",
+      "m 0.007462686567164179\n",
+      "n 0.06716417910447761\n",
+      "o 0.05970149253731343\n",
+      "p 0.007462686567164179\n",
+      "r 0.05223880597014925\n",
+      "s 0.08208955223880597\n",
+      "t 0.08955223880597014\n",
+      "u 0.04477611940298507\n",
+      "v 0.007462686567164179\n",
+      "w 0.03731343283582089\n",
+      "y 0.014925373134328358\n"
+     ]
+    }
+   ],
+   "source": [
+    "import re\n",
+    "\n",
+    "letters = dict()\n",
+    "count = 0\n",
+    "#Prompt user to enter file name\n",
+    "fileName = input(\"Enter a file name: \")\n",
+    "#Open file\n",
+    "fhand = open(fileName)\n",
+    "for line in fhand:\n",
+    "    #Convert all uppercase leters to lowercase\n",
+    "    lowerCase = line.lower()\n",
+    "    #Get rid of all the duplicate whitespaces and newline characters and extract letters\n",
+    "    extractLetters = \" \".join(re.split(\"[^a-zA-Z]*\", lowerCase))\n",
+    "    #Remove white space\n",
+    "    extractLetters = extractLetters.replace(\" \",\"\")\n",
+    "    for letter in extractLetters:\n",
+    "        count = count + 1\n",
+    "        if letter not in letters:\n",
+    "            letters[letter] = 1\n",
+    "        else:\n",
+    "            letters[letter] += 1 \n",
+    "\n",
+    "# Sort the dictionary by letters\n",
+    "lst = list()\n",
+    "for key, val in list(letters.items()):\n",
+    "    #Find the freqency of letters\n",
+    "    frequency = val / count\n",
+    "    lst.append((key, frequency))\n",
+    "    lst.sort()\n",
+    "for key, frequency in lst:\n",
+    "    print(key, frequency)\n",
+    "            "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
