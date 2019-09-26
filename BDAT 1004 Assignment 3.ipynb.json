@@ -74,22 +74,23 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 6,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Enter a number: 2\n",
-      "Enter a number: 4\n",
-      "Enter a number: bd\n",
+      "Enter a number: 1\n",
+      "Enter a number: 77\n",
+      "Enter a number: 10\n",
+      "Enter a number: bad\n",
       "Invalid input\n",
       "Enter a number: done\n",
-      "Total: 6.0\n",
-      "Count: 2\n",
-      "Max: 4\n",
-      "Min: 2\n"
+      "Total: 88.0\n",
+      "Count: 3\n",
+      "Max: 77\n",
+      "Min: 1\n"
      ]
     }
    ],
@@ -182,7 +183,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -514,14 +515,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Enter a file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/Romeo.txt\n",
+      "Enter a file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/romeo.txt\n",
       "a 0.08208955223880597\n",
       "b 0.014925373134328358\n",
       "c 0.007462686567164179\n",
@@ -561,7 +562,7 @@
     "    #Convert all uppercase leters to lowercase\n",
     "    lowerCase = line.lower()\n",
     "    #Get rid of all the duplicate whitespaces and newline characters and extract letters\n",
-    "    extractLetters = \" \".join(re.split(\"[^a-zA-Z]*\", lowerCase))\n",
+    "    extractLetters = \" \".join(re.split(\"[^a-z]*\", lowerCase))\n",
     "    #Remove white space\n",
     "    extractLetters = extractLetters.replace(\" \",\"\")\n",
     "    for letter in extractLetters:\n",
