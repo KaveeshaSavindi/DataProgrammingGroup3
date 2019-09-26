@@ -81,16 +81,15 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
+      "Enter a number: 2\n",
       "Enter a number: 4\n",
-      "Enter a number: 5\n",
-      "Enter a number: bad data\n",
+      "Enter a number: bd\n",
       "Invalid input\n",
-      "Enter a number: 7\n",
       "Enter a number: done\n",
-      "Total: 16.0\n",
-      "Count: 3\n",
-      "Max: 7\n",
-      "Min: 4\n"
+      "Total: 6.0\n",
+      "Count: 2\n",
+      "Max: 4\n",
+      "Min: 2\n"
      ]
     }
    ],
@@ -99,6 +98,9 @@
     "count = 0\n",
     "average = 0\n",
     "numberList = []\n",
+    "#Set values to null\n",
+    "maximum = None\n",
+    "minimum = None\n",
     "while True:\n",
     "    try:\n",
     "        line = input(\"Enter a number: \")\n",
@@ -110,6 +112,12 @@
     "        average = total / count\n",
     "        #Add numbers to a list\n",
     "        numberList.append(line)\n",
+    "        #Find largest number\n",
+    "        if maximum is None or line > maximum:\n",
+    "            maximum = line\n",
+    "        #Find the smallest number\n",
+    "        if minimum is None or line < minimum:\n",
+    "            minimum = line\n",
     "    except:\n",
     "        if line == \"done\":\n",
     "            break\n",
@@ -118,9 +126,9 @@
     "print (\"Total: \" + str(total))\n",
     "print (\"Count: \" + str(count))\n",
     "#Print Max\n",
-    "print (\"Max: \" + max(numberList))\n",
+    "print (\"Max: \" + str(maximum))\n",
     "#Print Min\n",
-    "print (\"Min: \" + min(numberList))"
+    "print (\"Min: \" + str(minimum))"
    ]
   },
   {
@@ -440,7 +448,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 38,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [
     {
@@ -506,7 +514,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
