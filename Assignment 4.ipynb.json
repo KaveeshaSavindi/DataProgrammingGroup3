@@ -1,0 +1,616 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Assignment 4 RegEx and Web Services"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Chapter 11 "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/mbox.txt\n",
+      "Enter a regular expression: ^X-\n",
+      "/Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/mbox.txt had 14368 lines that matched ^X-\n"
+     ]
+    }
+   ],
+   "source": [
+    "import re\n",
+    "\n",
+    "count = 0\n",
+    "fileName = input(\"Enter file name: \")\n",
+    "fhand = open(fileName)\n",
+    "regex = input(\"Enter a regular expression: \")\n",
+    "for line in fhand:\n",
+    "    searchPhrase = re.search(regex,line)\n",
+    "    if searchPhrase != None:\n",
+    "        count = count + 1\n",
+    "print (fileName + \" had \" + str(count) + \" lines that matched \" + regex)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter file name: /Users/kaveeshasavindi/Desktop/BDAT/Semester 1/Data Programming/Week 3/mbox.txt\n",
+      "Average: 38549.79497206704\n"
+     ]
+    }
+   ],
+   "source": [
+    "import re\n",
+    "\n",
+    "count = 0\n",
+    "total = 0\n",
+    "fileName = input(\"Enter file name: \")\n",
+    "fhand = open(fileName)\n",
+    "for line in fhand:\n",
+    "    findNumbers = re.findall(\"^New Revision: ([0-9]+)\",line)\n",
+    "    for number in findNumbers:\n",
+    "        number = float(number)\n",
+    "        count = count + 1\n",
+    "        total = total + number\n",
+    "average = total / count\n",
+    "print(\"Average: \" + str(average))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Chapter 12"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter 'done' to exit\n",
+      "Enter URL: http://data.pr4e.org/words.txt\n",
+      "HTTP/1.1 200 OK\n",
+      "Date: Sun, 29 Sep 2019 15:50:07 GMT\n",
+      "Server: Apache/2.4.18 (Ubuntu)\n",
+      "Last-Modified: Sat, 13 May 2017 11:22:22 GMT\n",
+      "ETag: \"493-54f6609245537\"\n",
+      "Accept-Ranges: bytes\n",
+      "Content-Length: 1171\n",
+      "Cache-Control: max-age=0, no-cache, no-store, must-revalidate\n",
+      "Pragma: no-cache\n",
+      "Expires: Wed, 11 Jan 1984 05:00:00 GMT\n",
+      "Connection: close\n",
+      "Content-Type: text/plain\n",
+      "\n",
+      "Writing programs or programming is a very creative\n",
+      "and rewarding activity  You can write programs for\n",
+      "many reasons ranging from making your living to solving\n",
+      "a difficult data analysis problem to having fun to helping\n",
+      "someone else solve a problem  This book assumes that\n",
+      "{\\em everyone} needs to know how to program and that once\n",
+      "you know how to program, you will figure out what you want\n",
+      "to do with your newfound skills\n",
+      "\n",
+      "We are surrounded in our daily lives with computers ranging\n",
+      "from laptops to cell phones  We can think of these computers\n",
+      "as our personal assistants who can take care of many things\n",
+      "on our behalf  The hardware in our current-day computers\n",
+      "is essentially built to continuously ask us the question\n",
+      "What would you like me to do next\n",
+      "\n",
+      "Our computers are fast and have vasts amounts of memory and \n",
+      "could be very helpful to us if we only knew the language to \n",
+      "speak to explain to the computer what we would like it to \n",
+      "do next If we knew this language we could tell the \n",
+      "computer to do tasks on our behalf that were reptitive  \n",
+      "Interestingly, the kinds of things computers can do best\n",
+      "are often the kinds of things that we humans find boring\n",
+      "and mind-numbing\n",
+      "Enter 'done' to exit\n",
+      "Enter URL: done\n"
+     ]
+    }
+   ],
+   "source": [
+    "import socket\n",
+    "\n",
+    "while True:\n",
+    "    try: \n",
+    "        print(\"Please enter 'done' to exit\")\n",
+    "        url = input(\"Enter URL: \")\n",
+    "        #Split the URL to obtain domain name\n",
+    "        domain = url.split(\"/\")\n",
+    "\n",
+    "        mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n",
+    "        mysock.connect((domain[2], 80))\n",
+    "        cmd = ('GET ' + url + ' HTTP/1.0\\r\\n\\r\\n').encode()\n",
+    "        mysock.send(cmd)\n",
+    "\n",
+    "        while True:\n",
+    "            data = mysock.recv(512)\n",
+    "            if len(data) < 1:\n",
+    "                break\n",
+    "            print(data.decode(),end='')\n",
+    "\n",
+    "        mysock.close()\n",
+    "    except:\n",
+    "        if url == \"done\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Error! Please enter a valid URL\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Please enter 'done' to exit\n",
+      "Enter URL: http://data.pr4e.org/mbox-short.txt\n",
+      "HTTP/1.1 200 OK\n",
+      "Date: Mon, 30 Sep 2019 15:58:03 GMT\n",
+      "Server: Apache/2.4.18 (Ubuntu)\n",
+      "Last-Modified: Sat, 13 May 2017 11:22:22 GMT\n",
+      "ETag: \"171a2-54f6609240717\"\n",
+      "Accept-Ranges: bytes\n",
+      "Content-Length: 94626\n",
+      "Cache-Control: max-age=0, no-cache, no-store, must-revalidate\n",
+      "Pragma: no-cache\n",
+      "Expires: Wed, 11 Jan 1984 05:00:00 GMT\n",
+      "Connection: close\n",
+      "Content-Type: text/plain\n",
+      "\n",
+      "From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008\n",
+      "Return-Path: <postmaster@collab.sakaiproject.org>\n",
+      "Received: from murder (mail.umi\n",
+      "ch.edu [141.211.14.90])\n",
+      "\t by frankenstein.mail.umich.edu (Cyrus v2.3.8) with LMTPA;\n",
+      "\t Sat, 05 Jan 2008 09:14:16 -0500\n",
+      "X-Sieve: CMU Sieve 2.3\n",
+      "Received: from murder ([unix socket])\n",
+      "\t by mail.umich.edu (Cyrus v2.2.12) with LMTPA;\n",
+      "\t Sat, 05 Jan 2008 09:14:16 -0500\n",
+      "Received: from holes.mr.itd.umich.edu (holes.mr.itd.umich.edu [141.211.14.79])\n",
+      "\tby flawless.mail.umich.edu () with ESMTP id m05EEFR1013674;\n",
+      "\tSat, 5 Jan 2008 09:14:15 -0500\n",
+      "Received: FROM paploo.uhi.ac.uk (app1.prod.collab.uhi.ac.uk [194.35.219.184])\n",
+      "\t\n",
+      "BY holes.mr.itd.umich.edu ID 477F90B0.2DB2F.12494 ; \n",
+      "\t 5 Jan 2008 09:14:10 -0500\n",
+      "Received: from paploo.uhi.ac.uk (localhost [127.0.0.1])\n",
+      "\tby paploo.uhi.ac.uk (Postfix) with ESMTP id 5F919BC2F2;\n",
+      "\tSat,  5 Jan 2008 14:10:05 +0000 (GMT)\n",
+      "Message-ID: <200801051412.m05ECIaH010327@nakamura.uits.iupui.edu>\n",
+      "Mime-Version: 1.0\n",
+      "Content-Transfer-Encoding: 7bit\n",
+      "Received: from prod.collab.uhi.ac.uk ([194.35.219.182])\n",
+      "          by paploo\n",
+      ".uhi.ac.uk (JAMES SMTP Server 2.1.3) with SMTP ID 899\n",
+      "          for <source@collab.sakaiproject.org>;\n",
+      "          Sat, 5 Jan 2008 14:09:50 +0000 (GMT)\n",
+      "Received: from nakamura.uits.iupui.edu (nakamura.uits.iupui.edu [134.68.220.122])\n",
+      "\tby shmi.uhi.ac.uk (Postfix) with ESMTP id A215243002\n",
+      "\tfor <source@collab.sakaiproject.org>; Sat,  5 Jan 2008 14:13:33 +0000 (GMT)\n",
+      "Received: from nakamura.uits.iupui.edu (localhost [127.0.0.1])\n",
+      "\tby nakamura.uits.iupui.edu (8.12.11.20060308/8.12.11) with ESMTP id m05ECJVp010329\n",
+      "\tfo\n",
+      "r <source@collab.sakaiproject.org>; Sat, 5 Jan 2008 09:12:19 -0500\n",
+      "Received: (from apache@localhost)\n",
+      "\tby nakamura.uits.iupui.edu (8.12.11.20060308/8.12.11/Submit) id m05ECIaH010327\n",
+      "\tfor source@collab.sakaiproject.org; Sat, 5 Jan 2008 09:12:18 -0500\n",
+      "Date: Sat, 5 Jan 2008 09:12:18 -0500\n",
+      "X-Authentication-Warning: nakamura.uits.iupui.edu: apache set sender to stephen.marquard@uct.ac.za using -f\n",
+      "To: source@collab.sakaiproject.org\n",
+      "From: stephen.marquard@uct.ac.za\n",
+      "Subject: [sakai] svn commit: r39772 - content/bran\n",
+      "ches/sakai_2-5-x/content-impl/impl/src/java/org/sakaiproject/content/impl\n",
+      "X-Content-Type-Outer-Envelope: text/plain; charset=UTF-8\n",
+      "X-Content-Type-Message-Body: text/plain; charset=UTF-8\n",
+      "Content-Type: text/plain; charset=UTF-8\n",
+      "X-DSPAM-Result: Innocent\n",
+      "X-DSPAM-Processed: Sat Jan  5 09:14:16 2008\n",
+      "X-DSPAM-Confidence: 0.8475\n",
+      "X-DSPAM-Probability: 0.0000\n",
+      "\n",
+      "Details: http://source.sakaiproject.org/viewsvn/?view=rev&rev=39772\n",
+      "\n",
+      "Author: stephen.marquard@uct.ac.za\n",
+      "Date: 2008-01-05 09:12:07 -0500 (Sat, 05 Jan 2008)\n",
+      "New Re\n",
+      "Total number of characters in page: 95000\n",
+      "Please enter 'done' to exit\n"
+     ]
+    }
+   ],
+   "source": [
+    "import socket\n",
+    "\n",
+    "count = 0\n",
+    "while True:\n",
+    "    try: \n",
+    "        print(\"Please enter 'done' to exit\")\n",
+    "        url = input(\"Enter URL: \")\n",
+    "        #Split the URL to obtain domain name\n",
+    "        domain = url.split(\"/\")\n",
+    "\n",
+    "        mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n",
+    "        mysock.connect((domain[2], 80))\n",
+    "        cmd = ('GET ' + url + ' HTTP/1.0\\r\\n\\r\\n').encode()\n",
+    "        mysock.send(cmd)\n",
+    "\n",
+    "        while True:\n",
+    "            data = mysock.recv(512)\n",
+    "            count = count + len(data)\n",
+    "            if len(data) < 1:\n",
+    "                break\n",
+    "            if count <= 3000:\n",
+    "                print(data.decode())\n",
+    "        print (\"Total number of characters in page: \" + str(count))    \n",
+    "        mysock.close()\n",
+    "    except:\n",
+    "        if url == \"done\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Error! Please enter a valid URL\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Please enter 'done' to exit\n",
+      "Enter URL: http://data.pr4e.org/mbox-short.txt\n",
+      "From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008\n",
+      "\n",
+      "Return-Path: <postmaster@collab.sakaiproject.org>\n",
+      "\n",
+      "Received: from murder (mail.umich.edu [141.211.14.90])\n",
+      "\n",
+      "\t by frankenstein.mail.umich.edu (Cyrus v2.3.8) with LMTPA;\n",
+      "\n",
+      "\t Sat, 05 Jan 2008 09:14:16 -0500\n",
+      "\n",
+      "X-Sieve: CMU Sieve 2.3\n",
+      "\n",
+      "Received: from murder ([unix socket])\n",
+      "\n",
+      "\t by mail.umich.edu (Cyrus v2.2.12) with LMTPA;\n",
+      "\n",
+      "\t Sat, 05 Jan 2008 09:14:16 -0500\n",
+      "\n",
+      "Received: from holes.mr.itd.umich.edu (holes.mr.itd.umich.edu [141.211.14.79])\n",
+      "\n",
+      "\tby flawless.mail.umich.edu () with ESMTP id m05EEFR1013674;\n",
+      "\n",
+      "\tSat, 5 Jan 2008 09:14:15 -0500\n",
+      "\n",
+      "Received: FROM paploo.uhi.ac.uk (app1.prod.collab.uhi.ac.uk [194.35.219.184])\n",
+      "\n",
+      "\tBY holes.mr.itd.umich.edu ID 477F90B0.2DB2F.12494 ; \n",
+      "\n",
+      "\t 5 Jan 2008 09:14:10 -0500\n",
+      "\n",
+      "Received: from paploo.uhi.ac.uk (localhost [127.0.0.1])\n",
+      "\n",
+      "\tby paploo.uhi.ac.uk (Postfix) with ESMTP id 5F919BC2F2;\n",
+      "\n",
+      "\tSat,  5 Jan 2008 14:10:05 +0000 (GMT)\n",
+      "\n",
+      "Message-ID: <200801051412.m05ECIaH010327@nakamura.uits.iupui.edu>\n",
+      "\n",
+      "Mime-Version: 1.0\n",
+      "\n",
+      "Content-Transfer-Encoding: 7bit\n",
+      "\n",
+      "Received: from prod.collab.uhi.ac.uk ([194.35.219.182])\n",
+      "\n",
+      "          by paploo.uhi.ac.uk (JAMES SMTP Server 2.1.3) with SMTP ID 899\n",
+      "\n",
+      "          for <source@collab.sakaiproject.org>;\n",
+      "\n",
+      "          Sat, 5 Jan 2008 14:09:50 +0000 (GMT)\n",
+      "\n",
+      "Received: from nakamura.uits.iupui.edu (nakamura.uits.iupui.edu [134.68.220.122])\n",
+      "\n",
+      "\tby shmi.uhi.ac.uk (Postfix) with ESMTP id A215243002\n",
+      "\n",
+      "\tfor <source@collab.sakaiproject.org>; Sat,  5 Jan 2008 14:13:33 +0000 (GMT)\n",
+      "\n",
+      "Received: from nakamura.uits.iupui.edu (localhost [127.0.0.1])\n",
+      "\n",
+      "\tby nakamura.uits.iupui.edu (8.12.11.20060308/8.12.11) with ESMTP id m05ECJVp010329\n",
+      "\n",
+      "\tfor <source@collab.sakaiproject.org>; Sat, 5 Jan 2008 09:12:19 -0500\n",
+      "\n",
+      "Received: (from apache@localhost)\n",
+      "\n",
+      "\tby nakamura.uits.iupui.edu (8.12.11.20060308/8.12.11/Submit) id m05ECIaH010327\n",
+      "\n",
+      "\tfor source@collab.sakaiproject.org; Sat, 5 Jan 2008 09:12:18 -0500\n",
+      "\n",
+      "Date: Sat, 5 Jan 2008 09:12:18 -0500\n",
+      "\n",
+      "X-Authentication-Warning: nakamura.uits.iupui.edu: apache set sender to stephen.marquard@uct.ac.za using -f\n",
+      "\n",
+      "To: source@collab.sakaiproject.org\n",
+      "\n",
+      "From: stephen.marquard@uct.ac.za\n",
+      "\n",
+      "Subject: [sakai] svn commit: r39772 - content/branches/sakai_2-5-x/content-impl/impl/src/java/org/sakaiproject/content/impl\n",
+      "\n",
+      "X-Content-Type-Outer-Envelope: text/plain; charset=UTF-8\n",
+      "\n",
+      "X-Content-Type-Message-Body: text/plain; charset=UTF-8\n",
+      "\n",
+      "Content-Type: text/plain; charset=UTF-8\n",
+      "\n",
+      "X-DSPAM-Result: Innocent\n",
+      "\n",
+      "X-DSPAM-Processed: Sat Jan  5 09:14:16 2008\n",
+      "\n",
+      "X-DSPAM-Confidence: 0.8475\n",
+      "\n",
+      "X-DSPAM-Probability: 0.0000\n",
+      "\n",
+      "\n",
+      "\n",
+      "Details: http://source.sakaiproject.org/viewsvn/?view=rev&rev=39772\n",
+      "\n",
+      "\n",
+      "\n",
+      "Author: stephen.marquard@uct.ac.za\n",
+      "\n",
+      "Date: 2008-01-05 09:12:07 -0500 (Sat, 05 Jan 2008)\n",
+      "\n",
+      "New Revision: 39772\n",
+      "\n",
+      "\n",
+      "\n",
+      "Modified:\n",
+      "\n",
+      "content/branches/sakai_2-5-x/content-impl/impl/src/java/org/sakaiproject/content/impl/ContentServiceSqlOracle.java\n",
+      "\n",
+      "content/branches/sakai_2-5-x/content-impl/impl/src/java/org/sakaiproject/content/impl/DbContentService.java\n",
+      "\n",
+      "Log:\n",
+      "\n",
+      "SAK-12501 merge to 2-5-x: r39622, r39624:5, r39632:3 (resolve conflict from differing linebreaks for r39622)\n",
+      "\n",
+      "\n",
+      "\n",
+      "----------------------\n",
+      "\n",
+      "Total number of characters in page: 94626\n",
+      "Please enter 'done' to exit\n"
+     ]
+    }
+   ],
+   "source": [
+    "import urllib.request\n",
+    "\n",
+    "count = 0\n",
+    "while True:\n",
+    "    try: \n",
+    "        print(\"Please enter 'done' to exit\")\n",
+    "        url = input(\"Enter URL: \")\n",
+    "        \n",
+    "        fhand = urllib.request.urlopen(url)\n",
+    "\n",
+    "        for line in fhand:\n",
+    "            char = line.decode()\n",
+    "            if len(char) < 1:\n",
+    "                break\n",
+    "            count = count + len(char)\n",
+    "            if count <= 3000:\n",
+    "                print(line.decode())\n",
+    "        print (\"Total number of characters in page: \" + str(count))    \n",
+    "    except:\n",
+    "        if url == \"done\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Error! Please enter a valid URL\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 4"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Enter - https://www.smashingmagazine.com/2011/11/the-perfect-paragraph/\n",
+      "Total paragraphs in page: 69\n"
+     ]
+    }
+   ],
+   "source": [
+    "import urllib.request, urllib.parse, urllib.error\n",
+    "from bs4 import BeautifulSoup\n",
+    "import ssl\n",
+    "\n",
+    "count = 0\n",
+    "\n",
+    "# Ignore SSL certificate errors\n",
+    "ctx = ssl.create_default_context()\n",
+    "ctx.check_hostname = False\n",
+    "ctx.verify_mode = ssl.CERT_NONE\n",
+    "\n",
+    "url = input('Enter - ')\n",
+    "html = urllib.request.urlopen(url, context=ctx).read()\n",
+    "soup = BeautifulSoup(html, 'html.parser')\n",
+    "\n",
+    "# Retrieve all of the anchor tags\n",
+    "tags = soup('p')\n",
+    "for tag in tags:\n",
+    "    count = count + 1\n",
+    "print(\"Total paragraphs in page: \" + str(count))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 5"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Please enter 'done' to exit\n",
+      "Enter URL: http://data.pr4e.org/romeo.txt\n",
+      "\n",
+      "\n",
+      "But soft what light through yonder window breaks\n",
+      "It is the east and Juliet is the sun\n",
+      "Arise fair sun and kill the envious moon\n",
+      "Who is already s\n",
+      "ick and pale with grief\n",
+      "\n",
+      "Please enter 'done' to exit\n"
+     ]
+    }
+   ],
+   "source": [
+    "import socket\n",
+    "\n",
+    "while True:\n",
+    "    try: \n",
+    "        print(\"Please enter 'done' to exit\")\n",
+    "        url = input(\"Enter URL: \")\n",
+    "        #Split the URL to obtain domain name\n",
+    "        domain = url.split(\"/\")\n",
+    "\n",
+    "        mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n",
+    "        mysock.connect((domain[2], 80))\n",
+    "        cmd = ('GET ' + url + ' HTTP/1.0\\r\\n\\r\\n').encode()\n",
+    "        mysock.send(cmd)\n",
+    "\n",
+    "        while True:\n",
+    "            data = mysock.recv(512)\n",
+    "            data = data.decode()\n",
+    "            #Find position of header data\n",
+    "            hpos = data.find('\\r\\n\\r\\n')\n",
+    "            if len(data) < 1:\n",
+    "                break\n",
+    "            pageData = data[hpos+1:]\n",
+    "            print(pageData)   \n",
+    "        mysock.close()\n",
+    "    except:\n",
+    "        if url == \"done\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Error! Please enter a valid URL\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
