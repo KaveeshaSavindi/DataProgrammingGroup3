@@ -515,7 +515,7 @@
     "html = urllib.request.urlopen(url, context=ctx).read()\n",
     "soup = BeautifulSoup(html, 'html.parser')\n",
     "\n",
-    "# Retrieve all of the anchor tags\n",
+    "# Retrieve all of the paraghraph tags\n",
     "tags = soup('p')\n",
     "for tag in tags:\n",
     "    count = count + 1\n",
